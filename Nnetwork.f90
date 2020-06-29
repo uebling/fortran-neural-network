@@ -4,7 +4,6 @@ IMPLICIT NONE
 
 CONTAINS
 
-
 REAL(8) FUNCTION SIGMOID(x,number)
 USE Parameters
 IMPLICIT NONE
@@ -23,13 +22,41 @@ SELECT CASE (number)
 	CASE (5)
 		SIGMOID = 2.*ATAN(0.5*pi*x)/pi
 	CASE (6)
-		SIGMOID = 1. / (1. + ABS(x))
+		SIGMOID = x / (1. + ABS(x))
 	CASE DEFAULT
 		SIGMOID = 1. / (1. + EXP(-x))
 END SELECT
 
 RETURN
 END FUNCTION SIGMOID
+
+
+REAL(8) FUNCTION SIGMOID_DERIV(x,number)
+USE Parameters
+IMPLICIT NONE
+REAL(8), INTENT(IN) :: x
+INTEGER, INTENT(IN) :: number
+
+SELECT CASE (number)
+	CASE (1)
+		SIGMOID_DERIV = EXP(-x)/(1+EXP(-x))**2
+	CASE (2)
+		SIGMOID_DERIV = EXP(-0.25*pi*x**2)
+	CASE (3)
+		SIGMOID_DERIV = 1. / (1. + x**2)**(1.5)
+	CASE (4)
+		SIGMOID_DERIV = 1. / COSH(x)**2
+	CASE (5)
+		SIGMOID_DERIV = 1. / (1. + (0.5*pi*x)**2)
+	CASE (6)
+		SIGMOID_DERIV = 1. / (1. + ABS(x))**2
+	CASE DEFAULT
+		SIGMOID_DERIV = EXP(-x)/(1+EXP(-x))**2
+END SELECT
+
+RETURN
+END FUNCTION SIGMOID_DERIV
+
 
 REAL(8) FUNCTION LOSS_MSE(out_pred,out_true)
 IMPLICIT NONE
@@ -50,14 +77,13 @@ INTEGER :: insize
 REAL(8) :: bias,tmp
 REAL(8), DIMENSION(1:insize) :: input, weights
 
-
 tmp = SUM(input(:) * weights(:)) + bias
 
 NEURON = SIGMOID(tmp,1)
 
-
 RETURN
 END FUNCTION NEURON
+
 
 SUBROUTINE FeedForward(input,output)
 	USE PARAMETERS
@@ -85,6 +111,7 @@ SUBROUTINE FeedForward(input,output)
 		output(j) = NEURON(n_inputs,hidden,weight_out(j,:),bias_out(j))
 	END DO
 END SUBROUTINE FeedForward
+
 
 SUBROUTINE InitializeWB
 	USE PARAMETERS
