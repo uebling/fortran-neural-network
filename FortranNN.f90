@@ -26,30 +26,4 @@ PROGRAM NeuralNetwork
 	END DO
 END PROGRAM NeuralNetwork
 
-SUBROUTINE InitializeWB
-	USE PARAMETERS
-	IMPLICIT NONE
-	INTEGER :: j,k,l
 
-	WRITE(*,*) "Initial weights and biases"
-	DO j = 1,n_hidden
-		DO k=1,n_neurons
-			DO l=1,n_inputs
-				weight(j,k,l) = Real(l-1)/REAL(n_inputs-1)
-				WRITE(*,*) j,k,l,weight(j,k,l)
-			END DO
-			bias(j,k) = 0.1
-		END DO
-	END DO
-	WRITE(*,*)
-
-	WRITE(*,*) "Output layer"
-	DO j = 1,n_outputs
-		DO k = 1,n_inputs
-			weight_out(j,k) = Real(k-1)/REAL(n_inputs-1)
-			WRITE(*,*) j,k,weight_out(j,k)
-		END DO
-		bias_out(j) = 0.2
-	END DO
-
-END SUBROUTINE InitializeWB
