@@ -154,8 +154,7 @@ REAL(8), DIMENSION(1:insize) :: input, weights
 tmp = 0.
 tmp = SUM(input(:) * weights(:)) + bias
 
-NEURON = tmp
-!NEURON = SIGMOID(tmp,1)
+NEURON = SIGMOID(tmp,1)
 
 
 RETURN
