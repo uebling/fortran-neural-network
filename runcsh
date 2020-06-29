@@ -1,3 +1,6 @@
 #!/bin/csh
-echo gfortran FortranNN.f90 -o a.out -fdefault-real-8
+echo gfortran Parameters.f90 -c -fdefault-real-8
+echo gfortran Nnetwork.f90 -c -fdefault-real-8
+echo gfortran TrainData.f90 -c -fdefault-real-8
+echo gfortran FortranNN.f90 -o a.out -fdefault-real-8 Parameters.o Nnetwork.o TrainData.o
 ./a.out
