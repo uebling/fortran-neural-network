@@ -126,8 +126,8 @@ SUBROUTINE InitializeWB
 	DO j = 1,n_hidden
 		DO k=1,n_neurons
 			DO l=1,n_inputs
-!				weight(j,k,l) = Real(l-1)/REAL(n_inputs-1)
-				weight(j,k,l) = rand()
+				weight(j,k,l) = Real(l-1)/REAL(n_inputs-1)
+!				weight(j,k,l) = rand()
 				WRITE(*,*) j,k,l,weight(j,k,l)
 			END DO
 			bias(j,k) = rand()
@@ -138,8 +138,8 @@ SUBROUTINE InitializeWB
 	WRITE(*,*) "Output layer"
 	DO j = 1,n_outputs
 		DO k = 1,n_inputs
-			weight_out(j,k) = rand()
-!			weight_out(j,k) = Real(k-1)/REAL(n_inputs-1)
+!			weight_out(j,k) = rand()
+			weight_out(j,k) = Real(k-1)/REAL(n_inputs-1)
 			WRITE(*,*) j,k,weight_out(j,k)
 		END DO
 		bias_out(j) = rand()

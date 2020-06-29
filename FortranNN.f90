@@ -4,6 +4,7 @@ PROGRAM NeuralNetwork
 	USE NNETWORK
 	IMPLICIT NONE
 	INTEGER :: j
+	REAL(8), DIMENSION(1:n_inputs) :: traindata,avg
 	REAL(8), DIMENSION(1:n_outputs) :: result, truevalue
 
 !First generate the training data
@@ -11,16 +12,19 @@ PROGRAM NeuralNetwork
 !Then the initial weights and biases
 	CALL InitializeWB
 !I now use columns 2 and 3 as input
-!subtract avaerga
-	traindata(:,2)=traindata(:,2)-SUM(traindata(:,2)/REAL(n_data))
-	traindata(:,3)=traindata(:,3)-SUM(traindata(:,3)/REAL(n_data))
+!get average
+	DO j = 1, n_inputs
+		avg(j) = SUM(fulldata(:,traincolumns(j))/REAL(n_data))
+	END DO
 
 
 
 	DO j = 1,n_data
-		truevalue = traindata(j,4)
+
+		traindata(:) = fulldata(j,traincolumns(:))-avg(:)
+		truevalue = fulldata(j,truecolumn)
 		WRITE(*,*) "Row of data: ",j
-		CALL FeedForward([traindata(j,2),traindata(j,3)],result)
+		CALL FeedForward(traindata(:),result)
 
 		WRITE(*,*) "Output: ",result(:), "True value: ",truevalue
 		WRITE(*,*) "Loss (MSE):", LOSS_MSE(result,truevalue)
