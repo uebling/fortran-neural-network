@@ -4,7 +4,7 @@ PROGRAM NeuralNetwork
 	USE NNETWORK
 	IMPLICIT NONE
 	INTEGER :: j
-	REAL(8), DIMENSION(1:n_outputs) :: result
+	REAL(8), DIMENSION(1:n_outputs) :: result, truevalue
 
 !First generate the training data
 	CALL Fill_Data
@@ -18,11 +18,12 @@ PROGRAM NeuralNetwork
 
 
 	DO j = 1,n_data
+		truevalue = traindata(j,4)
 		WRITE(*,*) "Row of data: ",j
 		CALL FeedForward([traindata(j,2),traindata(j,3)],result)
 
-		WRITE(*,*) "Output: ",result(:)
-		WRITE(*,*)
+		WRITE(*,*) "Output: ",result(:), "True value: ",truevalue
+		WRITE(*,*) "Loss (MSE):", LOSS_MSE(result,truevalue)
 	END DO
 END PROGRAM NeuralNetwork
 

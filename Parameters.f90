@@ -14,6 +14,8 @@ MODULE Parameters
 	INTEGER, PARAMETER :: n_inputs = 2
 	!Number of output neurons
 	INTEGER, PARAMETER :: n_outputs = 1
+	!learning rate
+	REAL(8), PARAMETER :: eta = 0.1
 	!weights and biases
 	REAL(8), DIMENSION(1:n_hidden,1:n_neurons,1:n_inputs) :: weight
 	REAL(8), DIMENSION(1:n_hidden,1:n_neurons) :: bias

@@ -66,7 +66,7 @@ INTEGER :: len
 len = SIZE(out_pred)
 IF (len.ne.SIZE(out_true)) WRITE(*,*) "Warning: Loss function compares arrays of different size"
 
-LOSS_MSE = SUM(out_true**2-out_pred**2)/REAL(len)
+LOSS_MSE = SUM(out_true-out_pred)**2/REAL(len)
 
 RETURN
 END FUNCTION LOSS_MSE
