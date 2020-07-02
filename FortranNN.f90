@@ -128,7 +128,7 @@ SUBROUTINE BackProp(traindata, hidden, output, truevalue)
         dL_dbo(k) = dL_do(k)*do_db(k)
     END DO
 
-    DO m = 1, n_hidden !????
+    DO m = 1, n_hidden
         DO k = 1, n_neurons
             DO l = 1, n_inputs
                 !Partials of m-th hidden layer w.r.t. l-1st, with 0th layer the input
@@ -142,20 +142,8 @@ SUBROUTINE BackProp(traindata, hidden, output, truevalue)
     END DO
 
 !Now for further contractions
-!Single hidden layer: contract immediately
-    IF (n_hidden .le. 1) THEN
-        DO k = 1, n_neurons
-            DO l = 1, n_inputs
-                dL_dw(1, k, l) = dL_dh(k)*dh_dw(1, k, l)
-!                                WRITE(*,*) "1",k,l,dL_dw(1,k,l)
-            END DO
-            dL_db(1, k) = dL_dh(k)*dh_db(1, k)
-!                        WRITE(*,*) "1",k,dL_db(1,k)
-        END DO
-    END IF
-    IF (n_hidden .ge. 2) THEN
 !More layers: contract to the left (output) side
-        DO m = n_hidden, 2, -1
+        DO m = n_hidden, 1, -1
             IF (m .lt. n_hidden) THEN
                 A = dL_dh
                 DO l = 1, n_neurons
@@ -167,17 +155,24 @@ SUBROUTINE BackProp(traindata, hidden, output, truevalue)
             DO k = 1, n_neurons
                 DO l = 1, n_inputs
                     dL_dw(m, k, l) = dL_dh(k)*dh_dw(m, k, l)
-!                                         WRITE(*,*) m,k,l,dL_dw(m,k,l)
+ !                                        WRITE(*,*) m,k,l,dL_dw(m,k,l)
                 END DO
                 dL_db(m, k) = dL_dh(k)*dh_db(m, k)
-!                                 WRITE(*,*) m,k,dL_db(m,k)
+ !                                WRITE(*,*) m,k,dL_db(m,k)
             END DO
         END DO
-    END IF
+ !   END IF
+ !   WRITE(*,*) dL_dw
 
     weight = weight - eta*dL_dw
     bias = bias - eta*dL_db
     weight_out = weight_out - eta*dL_dwo
     bias_out = bias_out - eta*dL_dbo
+
+    ! WRITE(*,*) weight BUG!
+    ! WRITE(*,*) bias !OK
+    ! WRITE(*,*) weight_out !OK
+    ! WRITE(*,*) bias_out !OK
+
 
 END SUBROUTINE BackProp

@@ -1,8 +1,8 @@
 MODULE Parameters
     !First the parameters
     IMPLICIT NONE
-    !Number of epochs
-    INTEGER, PARAMETER :: n_epochs = 2000
+    !Number of epochs00000
+    INTEGER, PARAMETER :: n_epochs = 100000
     !Number of entries in the training data
     INTEGER, PARAMETER :: n_data = 8
     !Number of columns in each entry
@@ -13,7 +13,7 @@ MODULE Parameters
     INTEGER, PARAMETER :: n_neurons = 2
     !Number of inputs per neurons
     !WARNING: As of now this must be the same as n_neurons
-    INTEGER, PARAMETER :: n_inputs = 2
+    INTEGER, PARAMETER :: n_inputs = n_neurons
     !Number of output neurons
     INTEGER, PARAMETER :: n_outputs = 1
     !Type of activation function
