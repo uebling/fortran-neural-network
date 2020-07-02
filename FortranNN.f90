@@ -1,5 +1,6 @@
 PROGRAM NeuralNetwork
 	USE TrainDataModule
+	USE TestDataModule
 	USE PARAMETERS
 	USE NNETWORK
 	IMPLICIT NONE
@@ -38,8 +39,29 @@ PROGRAM NeuralNetwork
 		TotalLoss = TotalLoss / REAL(n_data)
 		WRITE(*,*) "Total Loss in Epoch",epoch,":",TotalLoss
 	END DO
+
+	CALL TestNN
+
 END PROGRAM NeuralNetwork
 
+SUBROUTINE TestNN
+	USE TrainDataModule
+	USE TestDataModule
+	USE PARAMETERS
+	USE NNETWORK
+	IMPLICIT NONE
+	INTEGER :: j
+	REAL(8), DIMENSION(1:n_outputs) :: result
+	REAL(8), DIMENSION(1:n_hidden,1:n_neurons) :: hidden
+
+	CALL Get_Test_Data
+
+	DO j = 1, n_test
+		CALL FeedForward(testdata(j,traincolumns(:)),hidden,result)
+		WRITE(*,*) "NN guess: ",result(:), "True value: ",testdata(j,truecolumn)
+	END DO
+
+END SUBROUTINE TestNN
 
 
 SUBROUTINE Simple_FeedForward(output)
