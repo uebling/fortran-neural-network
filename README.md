@@ -5,4 +5,4 @@ Nothing fancy, just written for the purpose of playing around.
 
 Input is fixed in the file, no file I/O yet.
 
-It's also quite stupid and unable to learn anything, it can just do feedforward.
+Since the last update it can learn via backpropagation, but I haven't tested it much yet.
