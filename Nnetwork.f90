@@ -18,15 +18,15 @@ CONTAINS
         CASE (1)
             SIGMOID = 1./(1.+EXP(-x))
         CASE (2)
-            SIGMOID = ERF(0.5*SQRT(pi)*x)
+            SIGMOID = 0.5*(ERF(0.5*SQRT(pi)*x)+1.)
         CASE (3)
-            SIGMOID = x/SQRT(1.+x**2)
+            SIGMOID = 0.5*(x/SQRT(1.+x**2)+1.)
         CASE (4)
-            SIGMOID = TANH(x)
+            SIGMOID = 0.5*(TANH(x)+1.)
         CASE (5)
-            SIGMOID = 2.*ATAN(0.5*pi*x)/pi
+            SIGMOID = ATAN(0.5*pi*x)/pi+0.5
         CASE (6)
-            SIGMOID = x/(1.+ABS(x))
+            SIGMOID = 0.5*x/(1.+ABS(x))+0.5
         CASE DEFAULT
             SIGMOID = 1./(1.+EXP(-x))
         END SELECT

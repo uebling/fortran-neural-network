@@ -19,7 +19,7 @@ MODULE Parameters
     !Type of activation function
     INTEGER, PARAMETER :: act_type = 1
     !learning rate
-    REAL(8), PARAMETER :: eta = 0.1
+    REAL(8), PARAMETER :: eta = 0.5
     !Number of test data
     INTEGER, PARAMETER :: n_test = 8
     !File i/o stuff
