@@ -2,7 +2,7 @@ MODULE Parameters
     !First the parameters
     IMPLICIT NONE
     !Number of epochs00000
-    INTEGER, PARAMETER :: n_epochs = 100000
+    INTEGER, PARAMETER :: n_epochs = 10000
     !Number of entries in the training data
     INTEGER, PARAMETER :: n_data = 8
     !Number of columns in each entry
@@ -22,6 +22,9 @@ MODULE Parameters
     REAL(8), PARAMETER :: eta = 0.1
     !Number of test data
     INTEGER, PARAMETER :: n_test = 8
+    !File i/o stuff
+    CHARACTER(LEN=80), PARAMETER :: fmt="(1X20ES14.5E3)"
+    INTEGER, PARAMETER :: rl=5000 !record length
     !Below come global variables:
     REAL(8), PARAMETER :: pi = 4.*ATAN(1.)
     REAL(8), DIMENSION(1:n_inputs) :: avg

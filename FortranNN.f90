@@ -40,6 +40,8 @@ PROGRAM NeuralNetwork
         WRITE (*, *) "Total Loss in Epoch", epoch, ":", TotalLoss
     END DO
 
+    CALL DumpWeights
+
     CALL TestNN
 
 END PROGRAM NeuralNetwork
@@ -143,26 +145,24 @@ SUBROUTINE BackProp(traindata, hidden, output, truevalue)
 
 !Now for further contractions
 !More layers: contract to the left (output) side
-        DO m = n_hidden, 1, -1
-            IF (m .lt. n_hidden) THEN
+    DO m = n_hidden, 1, -1
+        IF (m .lt. n_hidden) THEN
+            A = dL_dh
+            DO l = 1, n_neurons
                 A = dL_dh
-                DO l = 1, n_neurons
-                    A = dL_dh
-                    dL_dh(l) = SUM(A(:)*dh_dh(m, :, l))
-                END DO
-            END IF
-
-            DO k = 1, n_neurons
-                DO l = 1, n_inputs
-                    dL_dw(m, k, l) = dL_dh(k)*dh_dw(m, k, l)
- !                                        WRITE(*,*) m,k,l,dL_dw(m,k,l)
-                END DO
-                dL_db(m, k) = dL_dh(k)*dh_db(m, k)
- !                                WRITE(*,*) m,k,dL_db(m,k)
+                dL_dh(l) = SUM(A(:)*dh_dh(m, :, l))
             END DO
+        END IF
+
+        DO k = 1, n_neurons
+            DO l = 1, n_inputs
+                dL_dw(m, k, l) = dL_dh(k)*dh_dw(m, k, l)
+            END DO
+            dL_db(m, k) = dL_dh(k)*dh_db(m, k)
         END DO
- !   END IF
- !   WRITE(*,*) dL_dw
+    END DO
+    !   END IF
+    !   WRITE(*,*) dL_dw
 
     weight = weight - eta*dL_dw
     bias = bias - eta*dL_db
@@ -174,5 +174,32 @@ SUBROUTINE BackProp(traindata, hidden, output, truevalue)
     ! WRITE(*,*) weight_out !OK
     ! WRITE(*,*) bias_out !OK
 
-
 END SUBROUTINE BackProp
+
+SUBROUTINE DumpWeights
+    USE PARAMETERS
+    USE NNETWORK
+    IMPLICIT NONE
+    INTEGER :: j, k, l
+    OPEN (unit=21, file='weights.txt', recl=rl, action='write', position='append', status='unknown')
+
+    WRITE (21, *) "#Final weights and biases from last run are below:"
+    WRITE (21, *)
+
+    DO j = 1, n_hidden
+        WRITE (21, *) "Hidden layer No. ", j
+        DO k = 1, n_neurons
+            WRITE (21, *) "Neuron No. ", k
+            WRITE (21, *) "weights: ", weight(j, k, :)
+            WRITE (21, *) "bias: ", bias(j, k)
+        END DO
+    END DO
+    WRITE (21, *) "Output layer"
+    DO k = 1, n_outputs
+        WRITE (21, *) "Neuron No. ", k
+        WRITE (21, *) "weights: ", weight_out(k, :)
+        WRITE (21, *) "bias: ", bias_out(k)
+    END DO
+    WRITE (21, *)
+    CLOSE (21)
+END SUBROUTINE DumpWeights
